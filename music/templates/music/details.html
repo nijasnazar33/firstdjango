@@ -1,29 +1,40 @@
-<h1 xmlns="http://www.w3.org/1999/html">{{album.album_title}}</h1>
-<img src="{{album.album_logo}}">
+{% extends 'music/base.html' %}
+{% block title %}{{album.album_title}}{% endblock %}
+
+{% block body %}
+<img src="{{album.album_logo}}" style="width: 250px;">
+<h1>{{album.album_title}}</h1>
 <h2>{{album.artist}}</h2>
 
 {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
-<form action="{% url 'music:favourite' album.id %}", method="post">
-    {% csrf_token %}
-    {% for song in album.song_set.all %}
-        <input type="radio" id="song{{ forloop.counter }}" name="song" value="{{ song.id }}">
-    <label for="song{{ forloop.counter }}">
-        {{ song.song_title }}
-        {% if song.is_favourite %}
-            <img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/16/star-icon.png" />
-        {% endif %}
-    </label><br>
-    {% endfor %}
-    <input type="submit" value = "Favourite">
-</form>
-<!--
-<ul>
-    {%for song in album.song_set.all%}
-        <li>{{song.song_title}} - {{song.file_type}}</li>
-    {%endfor%}
-</ul>
--->
-<a href="http://127.0.0.1:8000/music/">Home</a>
+{% for song in album.song_set.all %}
+    {{ song.song_title }}
+    {% if song.is_favourite %}
+        <img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/16/star-icon.png" />
+    {% endif %}
+    <br>
+{% endfor %}
+
+<!--<form action="{% url 'music:favourite' album.id %}", method="post">-->
+    <!--{% csrf_token %}-->
+    <!--{% for song in album.song_set.all %}-->
+        <!--<input type="radio" id="song{{ forloop.counter }}" name="song" value="{{ song.id }}">-->
+    <!--<label for="song{{ forloop.counter }}">-->
+        <!--{{ song.song_title }}-->
+        <!--{% if song.is_favourite %}-->
+            <!--<img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/16/star-icon.png" />-->
+        <!--{% endif %}-->
+    <!--</label><br>-->
+    <!--{% endfor %}-->
+    <!--<input type="submit" value = "Favourite">-->
+<!--</form>-->
+<!--<ul>-->
+    <!--{%for song in album.song_set.all%}-->
+        <!--<li>{{song.song_title}} - {{song.file_type}}</li>-->
+    <!--{%endfor%}-->
+<!--</ul>-->
+
+{% endblock %}
